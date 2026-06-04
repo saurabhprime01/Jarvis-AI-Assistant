@@ -15,9 +15,13 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: Optional[str] = os.getenv("GOOGLE_API_KEY")
     MODEL_NAME: str = "gemini-1.5-flash"
     
-    # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///./jarvis.db"
+    # Database (SQLite for local, PostgreSQL for Vercel/Supabase)
+    DATABASE_URL: str = "sqlite:///./jarvis.db"
     VECTOR_DB_PATH: str = "./memory/data/vector_db"
+    
+    # Cloud Vector DB (Optional, falls back to ChromaDB locally if empty)
+    PINECONE_API_KEY: Optional[str] = os.getenv("PINECONE_API_KEY")
+    PINECONE_INDEX: str = "jarvis-memory"
     
     # Voice
     TTS_VOICE: str = "en-US-ChristopherNeural"

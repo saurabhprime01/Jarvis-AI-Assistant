@@ -40,8 +40,12 @@ class Reminder(Base):
     status = Column(String, default="pending") # pending, completed
     priority = Column(Integer, default=1)
 
-# Sync Engine for initialization
-engine = create_engine(settings.DATABASE_URL.replace("+aiosqlite", ""))
+# Connect engine, handling postgresql naming requirement
+db_url = settings.DATABASE_URL
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(db_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
