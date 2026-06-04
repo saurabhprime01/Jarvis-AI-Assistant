@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     MODEL_NAME: str = "gemini-1.5-flash"
     
     # Database (SQLite for local, PostgreSQL for Vercel/Supabase)
-    DATABASE_URL: str = "sqlite:///./jarvis.db"
-    VECTOR_DB_PATH: str = "./memory/data/vector_db"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:////tmp/jarvis.db" if os.getenv("VERCEL") else "sqlite:///./jarvis.db")
+    VECTOR_DB_PATH: str = "/tmp/vector_db" if os.getenv("VERCEL") else "./memory/data/vector_db"
     
     # Cloud Vector DB (Optional, falls back to ChromaDB locally if empty)
     PINECONE_API_KEY: Optional[str] = os.getenv("PINECONE_API_KEY")
