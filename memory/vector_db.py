@@ -1,6 +1,4 @@
 import os
-import chromadb
-from chromadb.config import Settings as ChromaSettings
 from app.core.config import settings
 from loguru import logger
 import google.generativeai as genai
@@ -41,6 +39,7 @@ class VectorMemory:
 
         if not self.use_pinecone:
             logger.info("Initializing local ChromaDB Vector store...")
+            import chromadb
             self.persist_directory = settings.VECTOR_DB_PATH
             if not os.path.exists(self.persist_directory):
                 os.makedirs(self.persist_directory)
